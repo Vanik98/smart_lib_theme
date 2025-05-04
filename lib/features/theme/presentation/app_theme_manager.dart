@@ -34,7 +34,7 @@ class AppThemeManager {
     try {
       context.read<AppThemeBloc>().add(AppThemeEvent.changeTheme(theme));
     } catch (e) {
-      throw Exception(ThemeExceptionConstants.initErrorMessage);
+      throw Exception(ThemeExceptionConstants.appThemeMessage);
     }
   }
 
@@ -42,7 +42,7 @@ class AppThemeManager {
     try {
       return context.read<AppThemeBloc>().state.theme;
     } catch (e) {
-      throw Exception(ThemeExceptionConstants.initErrorMessage);
+      throw Exception(ThemeExceptionConstants.appThemeMessage);
     }
   }
 }
