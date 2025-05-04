@@ -59,21 +59,18 @@ class AppThemeManager {
   ///
   /// Throws [Exception] with message from [ThemeExceptionConstants] if Bloc operation fails
   static void changeTheme({required BuildContext context, required String themeKey}) {
+    ThemeData? themeData;
+    for (var i = 0; i < _appThemes.length; i++) {
+      if (_appThemes[i].key == themeKey) {
+        themeData = _appThemes[i].themeData;
+        break;
+      }
+    }
+    if (themeData == null) {
+      throw Exception(ThemeExceptionConstants.notFoundKey);
+    }
     try {
-      ThemeData? themeData;
-      for (var i = 0; i < _appThemes.length; i++) {
-        if (_appThemes[i].key == themeKey) {
-          themeData = _appThemes[i].themeData;
-          break;
-        }
-      }
-      if (themeData != null) {
-        try {
-          context.read<AppThemeBloc>().add(AppThemeEvent.changeTheme(AppTheme(key: themeKey, themeData: themeData)));
-        } catch (e) {
-          throw Exception(ThemeExceptionConstants.notFoundKey);
-        }
-      }
+      context.read<AppThemeBloc>().add(AppThemeEvent.changeTheme(AppTheme(key: themeKey, themeData: themeData)));
     } catch (e) {
       throw Exception(ThemeExceptionConstants.appThemeMessage);
     }

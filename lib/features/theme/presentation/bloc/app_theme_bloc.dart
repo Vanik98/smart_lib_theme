@@ -2,7 +2,6 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_lib_theme/di/dependency_injection.dart';
 
 import '../../domain/use_cases/get_is_first_launch_use_case.dart';
 import '../../domain/use_cases/save_app_theme_use_case.dart';
@@ -29,8 +28,7 @@ class AppThemeBloc extends Bloc<AppThemeEvent, AppThemeState> {
   /// - [GetAppThemUseCase]
   ///
   /// Initializes state with the default theme using [AppThemeState.initial].
-  AppThemeBloc(this._saveAppThemeUseCase, this._getAppThemeUseCase)
-      : super(AppThemeState.initial()) {
+  AppThemeBloc(this._saveAppThemeUseCase, this._getAppThemeUseCase) : super(AppThemeState.initial()) {
     on<AppThemeChangeThemeEvent>(_changeTheme);
   }
 
@@ -39,10 +37,7 @@ class AppThemeBloc extends Bloc<AppThemeEvent, AppThemeState> {
   /// 1. Persists the new theme using [SaveAppThemeUseCase]
   /// 2. Retrieves the updated theme using [GetAppThemUseCase]
   /// 3. Emits a new state with the updated [ThemeData] to rebuild the UI [[4]]
-  void _changeTheme(
-      AppThemeChangeThemeEvent event,
-      Emitter<AppThemeState> emitter,
-      ) async {
+  void _changeTheme(AppThemeChangeThemeEvent event, Emitter<AppThemeState> emitter) async {
     _saveAppThemeUseCase.execute(event.theme);
     final theme = _getAppThemeUseCase.execute(AppThemeManager.appThemes);
     emitter(state.copyWith(theme: theme));

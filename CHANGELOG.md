@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.4] - 2025-05-04
+
+### Changed
+- Improved [README.md](README.md) formatting and wording.
+
 ## [1.0.3] - 2025-05-04
 
 ### Changed
