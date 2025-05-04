@@ -1,5 +1,3 @@
-Here’s an **enhanced, professional version** of your `README.md` with improved formatting, clarity, and structure while retaining all core content:
-
 ---
 
 # 🎨 SmartLib Theme - Effortless Flutter Theme Management
@@ -19,7 +17,11 @@ A **zero-boilerplate**, **BLoC-powered** Flutter theme management library that m
 - ✅ **Persistent themes**: Themes stay saved across app restarts.
 - ✅ **Scalable**: Supports dozens of themes without performance issues.
 
-Perfect for apps that need **flexible theming** with **zero complexity** [[Medium Article](https://medium.com/@hovhannisyankaro1992/theming-your-flutter-project-as-master-7ea58e5a354c)].
+---
+
+### Theming your Flutter project as Master
+
+Based on a [Medium article](https://medium.com/@hovhannisyankaro1992/theming-your-flutter-project-as-master-7ea58e5a354c) by [Karo Hovhannisyan](https://am.linkedin.com/in/hovhannisyankaro1992) — one of the most skilled mobile architects in the industry — this library is perfect for apps that need **flexible theming** with **zero complexity**.
 
 ---
 

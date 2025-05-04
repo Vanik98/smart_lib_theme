@@ -1,6 +1,6 @@
 name: smart_lib_theme
 description: A Flutter theme management library for dynamic theme switching with BLoC and ThemeExtension.
-version: 1.0.2
+version: 1.0.3
 homepage: https://github.com/Vanik98/smart_lib_theme
 repository: https://github.com/Vanik98/smart_lib_theme
 issue_tracker: https://github.com/Vanik98/smart_lib_theme/issues
