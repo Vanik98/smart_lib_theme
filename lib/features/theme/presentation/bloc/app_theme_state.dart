@@ -5,7 +5,7 @@ class AppThemeState {
 
   AppThemeState({this.theme});
 
-  factory AppThemeState.initial() => AppThemeState(theme: AppThemeManager.themeData);
+  factory AppThemeState.initial() => AppThemeState(theme: AppThemeManager.initialThemeData);
 
   AppThemeState copyWith({ThemeData? theme}) {
     return AppThemeState(theme: theme ?? this.theme);

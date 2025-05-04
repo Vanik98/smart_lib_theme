@@ -4,15 +4,16 @@ import 'package:smart_lib_theme/di/dependency_injection.dart';
 import 'package:smart_lib_theme/features/theme/presentation/bloc/app_theme_bloc.dart';
 import 'package:smart_lib_theme/features/theme/presentation/bloc/app_theme_event.dart';
 
+import '../../../core/utils/exception/constants/exception_constants.dart';
 import '../domain/entity/app_theme.dart';
 import '../domain/use_cases/get_is_first_launch_use_case.dart';
 
 class AppThemeManager {
-  static ThemeData? get themeData => _themeData;
+  static ThemeData? get initialThemeData => _initialThemeData;
 
   static List<AppTheme> get appThemes => _appThemes;
 
-  static ThemeData? _themeData;
+  static ThemeData? _initialThemeData;
   static late List<AppTheme> _appThemes;
 
   factory AppThemeManager() => _instance;
@@ -26,10 +27,22 @@ class AppThemeManager {
     _appThemes = themes;
     WidgetsFlutterBinding.ensureInitialized();
     await AppThemeDependencyInjection.configure();
-    _themeData = themeLocator.get<GetAppThemUseCase>().execute(_appThemes);
+    _initialThemeData = themeLocator.get<GetAppThemUseCase>().execute(_appThemes);
   }
 
-  static changeTheme({required BuildContext context, required AppTheme theme}) {
-    context.read<AppThemeBloc>().add(AppThemeEvent.changeTheme(theme));
+  static void changeTheme({required BuildContext context, required AppTheme theme}) {
+    try {
+      context.read<AppThemeBloc>().add(AppThemeEvent.changeTheme(theme));
+    } catch (e) {
+      throw Exception(ThemeExceptionConstants.initErrorMessage);
+    }
+  }
+
+  static ThemeData? getCurrentTheme({required BuildContext context}) {
+    try {
+      return context.read<AppThemeBloc>().state.theme;
+    } catch (e) {
+      throw Exception(ThemeExceptionConstants.initErrorMessage);
+    }
   }
 }
