@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
                 // Switch to light theme
                 AppThemeManager.changeTheme(
                     context: context,
-                    theme: AppTheme(key: 'light', themeData: ThemeData())
+                    themeKey:  'light'
                 );
               },
               child: Text('light'),
