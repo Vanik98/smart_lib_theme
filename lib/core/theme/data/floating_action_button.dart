@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme_extension.dart';
+import '../extensions/theme_extension.dart';
 
 abstract class FloatingActionButtonThemesData {
   static get(AppThemeExtension themeExt) {

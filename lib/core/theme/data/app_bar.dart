@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme_extension.dart';
+import '../extensions/theme_extension.dart';
 
 abstract class AppBarThemesData {
   static get(AppThemeExtension themeExt) {

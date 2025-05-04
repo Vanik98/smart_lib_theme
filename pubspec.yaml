@@ -1,8 +1,10 @@
 name: smart_lib_theme
 description: "A new Flutter project."
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0
 
-version: 1.0.0+1
+homepage: https://github.com/vanik98/smart_lib_theme
+repository: https://github.com/vanik98/smart_lib_theme
+issue_tracker: https://github.com/vanik98/smart_lib_theme/issues
 
 environment:
   sdk: ^3.7.2
