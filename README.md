@@ -53,7 +53,6 @@ Then run:
 flutter pub get  
 ```  
 
-> ⚠️ Ensure `bloc` and `flutter_bloc` are in `dependencies`, not `dev_dependencies`.
 
 ---
 
