@@ -4,7 +4,7 @@ import '../extensions/theme_extension.dart';
 
 abstract class DialogThemesData {
   static get(AppThemeExtension themeExt) {
-    return DialogTheme(
+    return DialogThemeData(
         backgroundColor: themeExt.surface,
         titleTextStyle: TextStyle(
           color: themeExt.primary,

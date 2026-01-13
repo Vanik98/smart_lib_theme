@@ -55,7 +55,7 @@ class AppDefaultThemesData {
       progressIndicatorTheme: ProgressIndicatorThemesData.get(themeExt),
       navigationBarTheme: NavigationBarThemesData.get(themeExt),
       // dividerTheme: DividerThemesData.get(themeExt),
-      tabBarTheme: tab_bar.TabBarThemeData.get(themeExt),
+      tabBarTheme: tab_bar.TabBarThemesData.get(themeExt),
     );
   }
 }
