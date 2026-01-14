@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.1] - 2026-01-14
+
+### Changed
+- Added automatic fallback to system theme (light/dark) when no theme is saved.
+- Expanded `smart_lib_theme.dart` exports to include all theme data components (app bar, buttons, colors, etc.).
+
 ## [1.1.0] - 2026-01-14
 
 ### Changed

@@ -28,18 +28,21 @@ class GetAppThemUseCase {
   /// - [appTheme]: A list of available [AppTheme] objects containing theme keys and [ThemeData]
   ///
   /// Returns:
-  /// - [ThemeData] for the saved theme, or null if not found
+  /// - [ThemeData] for the saved theme, or a theme that matches system brightness
+  ///   ("dark"/"light") when nothing is saved yet. If nothing matches, returns null.
   ThemeData? execute(List<AppTheme> appTheme) {
-    ThemeData? themeData;
     String? theme = repository.getTheme();
+
+    if (theme == null) {
+      return appTheme.isNotEmpty ? appTheme.first.themeData : null;
+    }
 
     for (var i = 0; i < appTheme.length; i++) {
       if (appTheme[i].key == theme) {
-        themeData = appTheme[i].themeData;
-        break;
+        return appTheme[i].themeData;
       }
     }
 
-    return themeData;
+    return appTheme.isNotEmpty ? appTheme.first.themeData : null;
   }
 }

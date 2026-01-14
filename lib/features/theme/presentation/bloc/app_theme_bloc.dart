@@ -31,7 +31,6 @@ class AppThemeBloc extends Bloc<AppThemeEvent, AppThemeState> {
   AppThemeBloc(this._saveAppThemeUseCase, this._getAppThemeUseCase)
       : super(
           AppThemeState(
-            // Берём сохранённую тему из репозитория при создании блока
             theme: _getAppThemeUseCase.execute(AppThemeManager.appThemes),
           ),
         ) {
