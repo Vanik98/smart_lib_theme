@@ -48,7 +48,7 @@ Based on a [Medium article](https://medium.com/@hovhannisyankaro1992/theming-you
 Add to `pubspec.yaml`:
 ```yaml  
 dependencies:  
-  smart_lib_theme: ^0.1.0  # Replace with latest version
+  smart_lib_theme: ^1.1.0  # Replace with latest version
 ```  
 Then run:
 ```bash  
@@ -62,9 +62,7 @@ flutter pub get
 In your `main.dart`, define supported themes:
 ```dart  
 import 'package:flutter/material.dart';  
-import 'package:smart_lib_theme/core/theme/default/themes.dart';  
-import 'package:smart_lib_theme/features/theme/presentation/app_theme_manager.dart';  
-import 'package:smart_lib_theme/features/theme/presentation/widgets/app_theme_builder.dart';  
+import 'package:smart_lib_theme/smart_lib_theme.dart';
 
 Future<void> main() async {  
   await AppThemeManager.init(themes: [  

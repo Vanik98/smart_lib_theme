@@ -1,10 +1,6 @@
-// smart_lib_theme.dart
+// smart_lib_theme_example
 import 'package:flutter/material.dart';
-import 'package:smart_lib_theme/core/theme/default/themes.dart';
-import 'package:smart_lib_theme/core/theme/extensions/theme_ext.dart';
-import 'package:smart_lib_theme/features/theme/domain/entity/app_theme.dart';
-import 'package:smart_lib_theme/features/theme/presentation/app_theme_manager.dart';
-import 'package:smart_lib_theme/features/theme/presentation/widgets/app_theme_builder.dart';
+import 'package:smart_lib_theme/smart_lib_theme.dart';
 
 /// Main entry point for the application
 Future<void> main() async {

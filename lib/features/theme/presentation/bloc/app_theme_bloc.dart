@@ -27,8 +27,14 @@ class AppThemeBloc extends Bloc<AppThemeEvent, AppThemeState> {
   /// - [SaveAppThemeUseCase]
   /// - [GetAppThemUseCase]
   ///
-  /// Initializes state with the default theme using [AppThemeState.initial].
-  AppThemeBloc(this._saveAppThemeUseCase, this._getAppThemeUseCase) : super(AppThemeState.initial()) {
+  /// Initializes state with the theme restored from persistent storage.
+  AppThemeBloc(this._saveAppThemeUseCase, this._getAppThemeUseCase)
+      : super(
+          AppThemeState(
+            // Берём сохранённую тему из репозитория при создании блока
+            theme: _getAppThemeUseCase.execute(AppThemeManager.appThemes),
+          ),
+        ) {
     on<AppThemeChangeThemeEvent>(_changeTheme);
   }
 

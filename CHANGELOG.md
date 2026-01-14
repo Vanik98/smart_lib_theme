@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0] - 2026-01-14
+
+### Changed
+- Added barrel file `smart_lib_theme.dart` that re-exports the main public API classes for easier imports.
+- Fixed theme restoration on app startup by initializing `AppThemeBloc` with the persisted theme.
+- Updated Kotlin Gradle plugin to `2.1.0` in the example Android project to match latest Flutter requirements.
+
 ## [1.0.5] - 2026-01-13
 
 ### Changed
