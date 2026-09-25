@@ -10,7 +10,7 @@ import '../data/dialog.dart';
 import '../data/floating_action_button.dart';
 import '../data/navigation_bar.dart';
 import '../data/progress_indicator.dart';
-import '../data/tab_bar.dart' as tab_bar;
+import '../data/tab_bar.dart';
 import '../data/text.dart';
 import 'default_theme_extensions.dart';
 
@@ -22,7 +22,7 @@ import 'default_theme_extensions.dart';
 /// - Text themes
 /// - Component-specific themes (e.g., AppBar, Dialog, TabBar)
 ///
-/// It relies on [DefaultLightThemeExtension] and [DefaultDarkThemeExtension] for base design tokens [[6]].
+/// It relies on [DefaultLightThemeExtension] and [DefaultDarkThemeExtension] for base design tokens.
 class AppDefaultThemesData {
   /// Returns a fully configured light theme using [DefaultLightThemeExtension].
   ThemeData get light => _def(themeExt: DefaultLightThemeExtension(), brightness: Brightness.light);
@@ -36,26 +36,23 @@ class AppDefaultThemesData {
   /// like buttons, text, navigation bars, etc., using their respective theming data classes.
   ///
   /// Parameters:
-  /// - [themeExt]: The theme extension containing base color and shape tokens [[6]]
+  /// - [themeExt]: The theme extension containing base color and shape tokens
   /// - [brightness]: The overall brightness (light or dark) of the theme
   ///
   /// Returns a ready-to-use [ThemeData] object suitable for use in [MaterialApp]
   ThemeData _def({required AppThemeExtension themeExt, required Brightness brightness}) {
     return ThemeData(
-      // fontFamily: FontFamily.adriana,
       extensions: [themeExt],
       colorScheme: ColorSchemeThemeData.get(themeExt, brightness: brightness),
       elevatedButtonTheme: ButtonThemesData.elevated(themeExt),
       outlinedButtonTheme: ButtonThemesData.outlined(themeExt),
       textTheme: TextThemesData.get(themeExt),
-      // inputDecorationTheme: InputThemesData.outline(themeExt),
       appBarTheme: AppBarThemesData.get(themeExt),
       dialogTheme: DialogThemesData.get(themeExt),
       floatingActionButtonTheme: FloatingActionButtonThemesData.get(themeExt),
       progressIndicatorTheme: ProgressIndicatorThemesData.get(themeExt),
       navigationBarTheme: NavigationBarThemesData.get(themeExt),
-      // dividerTheme: DividerThemesData.get(themeExt),
-      tabBarTheme: tab_bar.TabBarThemesData.get(themeExt),
+      tabBarTheme: TabBarThemesData.get(themeExt),
     );
   }
 }

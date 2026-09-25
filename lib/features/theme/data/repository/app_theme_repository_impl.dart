@@ -4,30 +4,16 @@ import '../../domain/repository/app_theme_repository.dart';
 import '../datasource/preferences/app_theme_preferences.dart';
 
 /// Concrete implementation of [AppThemeRepository] that uses [AppThemePreferences] for theme persistence.
-///
-/// This class serves as a bridge between the domain layer and data layer, handling actual reading and writing
-/// of theme preferences using platform-specific storage (e.g. SharedPreferences).
 class AppThemeRepositoryImpl implements AppThemeRepository {
-  /// Preferences abstraction used to persist theme settings.
-  final AppThemePreferences pref;
+  final AppThemePreferences _preferences;
 
-  /// Creates an instance of [AppThemeRepositoryImpl].
-  ///
-  /// Requires a non-null [AppThemePreferences] implementation for data access.
-  AppThemeRepositoryImpl(this.pref);
+  AppThemeRepositoryImpl(this._preferences);
 
-  /// Retrieves the saved theme key from persistent storage.
-  ///
-  /// Returns the theme key if found, or null if no theme has been saved yet.
+  /// Retrieves the saved theme key, or null if no theme has been saved yet.
   @override
-  String? getTheme() => pref.getTheme();
+  String? getTheme() => _preferences.getTheme();
 
-  /// Saves the given theme key to persistent storage.
-  ///
-  /// Used to persist the user's selected theme so it can be restored after app restarts.
-  ///
-  /// Parameters:
-  /// - [key]: The unique identifier of the theme to save (e.g., "light", "dark").
+  /// Persists the given theme key (e.g. "light", "dark").
   @override
-  void saveThem(String key) => pref.saveTheme(key);
+  Future<void> saveTheme(String key) => _preferences.saveTheme(key);
 }

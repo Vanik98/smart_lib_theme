@@ -1,13 +1,17 @@
 part of 'app_theme_bloc.dart';
 
+@immutable
 class AppThemeState {
-  ThemeData? theme;
+  final AppTheme theme;
 
-  AppThemeState({this.theme});
+  const AppThemeState({required this.theme});
 
-  factory AppThemeState.initial() => AppThemeState(theme: AppThemeManager.initialThemeData);
+  ThemeData get themeData => theme.themeData;
 
-  AppThemeState copyWith({ThemeData? theme}) {
-    return AppThemeState(theme: theme ?? this.theme);
-  }
+  @override
+  bool operator ==(Object other) =>
+      other is AppThemeState && other.theme.key == theme.key && identical(other.theme.themeData, theme.themeData);
+
+  @override
+  int get hashCode => Object.hash(theme.key, theme.themeData);
 }

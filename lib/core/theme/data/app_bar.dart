@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../extensions/theme_extension.dart';
 
 abstract class AppBarThemesData {
-  static get(AppThemeExtension themeExt) {
+  static AppBarTheme get(AppThemeExtension themeExt) {
     return AppBarTheme(
       elevation: 0,
       backgroundColor: themeExt.surface,

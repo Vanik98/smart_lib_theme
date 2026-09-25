@@ -1,12 +1,17 @@
 // smart_lib_theme/core/theme/extensions/theme_extension.dart
 
+import 'dart:ui' show lerpDouble;
+
 import 'package:flutter/material.dart';
 
 /// Custom theme extension that defines application-specific design tokens.
 ///
 /// This class extends [ThemeExtension] to allow custom styling properties (such as colors, shapes,
 /// and text styles) to be accessed through the [ThemeData] object. It enables developers to define
-/// a consistent design system across the app using Flutter's built-in theming capabilities [[4]].
+/// a consistent design system across the app using Flutter's built-in theming capabilities.
+///
+/// Subclasses are looked up as [AppThemeExtension], so
+/// `Theme.of(context).extension<AppThemeExtension>()` finds them.
 class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   // Default values for shape-related tokens
   static const _buttonCornerRadiusValue = 8.0;
@@ -70,7 +75,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   ///
   /// Requires explicit definitions for all color and text style tokens.
   /// Optional shape parameters use predefined defaults if not provided.
-  AppThemeExtension({
+  const AppThemeExtension({
     required this.primary,
     required this.onPrimary,
     required this.secondary,
@@ -108,10 +113,126 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   });
 
   @override
-  ThemeExtension<AppThemeExtension> copyWith() => this;
+  AppThemeExtension copyWith({
+    Color? primary,
+    Color? onPrimary,
+    Color? secondary,
+    Color? onSecondary,
+    Color? error,
+    Color? onError,
+    Color? surface,
+    Color? onSurface,
+    Color? onSurfaceSecondary,
+    double? buttonBorderRadius,
+    double? outlinedButtonBorderWidth,
+    double? textFormFieldBorderRadius,
+    double? textFormFieldBorderSide,
+    double? textFormFieldFocusedBorderSideValue,
+    double? buttonMinSizeHeight,
+    double? textFormFieldFocusedBorderSideWidth,
+    Color? displayTextSmallColor,
+    Color? displayTextMediumColor,
+    Color? displayTextLargeColor,
+    Color? titleTextSmallColor,
+    Color? titleTextMediumColor,
+    Color? titleTextLargeColor,
+    Color? bodyTextSmallColor,
+    Color? bodyTextMediumColor,
+    Color? bodyTextLargeColor,
+    Color? headlineTextSmallColor,
+    Color? headlineTextMediumColor,
+    Color? headlineTextLargeColor,
+    Color? labelTextSmallColor,
+    Color? labelTextMediumColor,
+    Color? labelTextLargeColor,
+    Color? warningColor,
+    Color? infoColor,
+    Color? successColor,
+  }) {
+    return AppThemeExtension(
+      primary: primary ?? this.primary,
+      onPrimary: onPrimary ?? this.onPrimary,
+      secondary: secondary ?? this.secondary,
+      onSecondary: onSecondary ?? this.onSecondary,
+      error: error ?? this.error,
+      onError: onError ?? this.onError,
+      surface: surface ?? this.surface,
+      onSurface: onSurface ?? this.onSurface,
+      onSurfaceSecondary: onSurfaceSecondary ?? this.onSurfaceSecondary,
+      buttonBorderRadius: buttonBorderRadius ?? this.buttonBorderRadius,
+      outlinedButtonBorderWidth: outlinedButtonBorderWidth ?? this.outlinedButtonBorderWidth,
+      textFormFieldBorderRadius: textFormFieldBorderRadius ?? this.textFormFieldBorderRadius,
+      textFormFieldBorderSide: textFormFieldBorderSide ?? this.textFormFieldBorderSide,
+      textFormFieldFocusedBorderSideValue: textFormFieldFocusedBorderSideValue ?? this.textFormFieldFocusedBorderSideValue,
+      buttonMinSizeHeight: buttonMinSizeHeight ?? this.buttonMinSizeHeight,
+      textFormFieldFocusedBorderSideWidth: textFormFieldFocusedBorderSideWidth ?? this.textFormFieldFocusedBorderSideWidth,
+      displayTextSmallColor: displayTextSmallColor ?? this.displayTextSmallColor,
+      displayTextMediumColor: displayTextMediumColor ?? this.displayTextMediumColor,
+      displayTextLargeColor: displayTextLargeColor ?? this.displayTextLargeColor,
+      titleTextSmallColor: titleTextSmallColor ?? this.titleTextSmallColor,
+      titleTextMediumColor: titleTextMediumColor ?? this.titleTextMediumColor,
+      titleTextLargeColor: titleTextLargeColor ?? this.titleTextLargeColor,
+      bodyTextSmallColor: bodyTextSmallColor ?? this.bodyTextSmallColor,
+      bodyTextMediumColor: bodyTextMediumColor ?? this.bodyTextMediumColor,
+      bodyTextLargeColor: bodyTextLargeColor ?? this.bodyTextLargeColor,
+      headlineTextSmallColor: headlineTextSmallColor ?? this.headlineTextSmallColor,
+      headlineTextMediumColor: headlineTextMediumColor ?? this.headlineTextMediumColor,
+      headlineTextLargeColor: headlineTextLargeColor ?? this.headlineTextLargeColor,
+      labelTextSmallColor: labelTextSmallColor ?? this.labelTextSmallColor,
+      labelTextMediumColor: labelTextMediumColor ?? this.labelTextMediumColor,
+      labelTextLargeColor: labelTextLargeColor ?? this.labelTextLargeColor,
+      warningColor: warningColor ?? this.warningColor,
+      infoColor: infoColor ?? this.infoColor,
+      successColor: successColor ?? this.successColor,
+    );
+  }
 
+  /// Interpolates every token so custom colors animate together with the
+  /// built-in [ColorScheme] when the theme changes.
   @override
-  ThemeExtension<AppThemeExtension> lerp(covariant ThemeExtension<AppThemeExtension>? other, double t) => this;
+  AppThemeExtension lerp(covariant ThemeExtension<AppThemeExtension>? other, double t) {
+    if (other is! AppThemeExtension) return this;
+
+    Color c(Color a, Color b) => Color.lerp(a, b, t)!;
+    double d(double a, double b) => lerpDouble(a, b, t)!;
+
+    return AppThemeExtension(
+      primary: c(primary, other.primary),
+      onPrimary: c(onPrimary, other.onPrimary),
+      secondary: c(secondary, other.secondary),
+      onSecondary: c(onSecondary, other.onSecondary),
+      error: c(error, other.error),
+      onError: c(onError, other.onError),
+      surface: c(surface, other.surface),
+      onSurface: c(onSurface, other.onSurface),
+      onSurfaceSecondary: c(onSurfaceSecondary, other.onSurfaceSecondary),
+      buttonBorderRadius: d(buttonBorderRadius, other.buttonBorderRadius),
+      outlinedButtonBorderWidth: d(outlinedButtonBorderWidth, other.outlinedButtonBorderWidth),
+      textFormFieldBorderRadius: d(textFormFieldBorderRadius, other.textFormFieldBorderRadius),
+      textFormFieldBorderSide: d(textFormFieldBorderSide, other.textFormFieldBorderSide),
+      textFormFieldFocusedBorderSideValue: d(textFormFieldFocusedBorderSideValue, other.textFormFieldFocusedBorderSideValue),
+      buttonMinSizeHeight: d(buttonMinSizeHeight, other.buttonMinSizeHeight),
+      textFormFieldFocusedBorderSideWidth: d(textFormFieldFocusedBorderSideWidth, other.textFormFieldFocusedBorderSideWidth),
+      displayTextSmallColor: c(displayTextSmallColor, other.displayTextSmallColor),
+      displayTextMediumColor: c(displayTextMediumColor, other.displayTextMediumColor),
+      displayTextLargeColor: c(displayTextLargeColor, other.displayTextLargeColor),
+      titleTextSmallColor: c(titleTextSmallColor, other.titleTextSmallColor),
+      titleTextMediumColor: c(titleTextMediumColor, other.titleTextMediumColor),
+      titleTextLargeColor: c(titleTextLargeColor, other.titleTextLargeColor),
+      bodyTextSmallColor: c(bodyTextSmallColor, other.bodyTextSmallColor),
+      bodyTextMediumColor: c(bodyTextMediumColor, other.bodyTextMediumColor),
+      bodyTextLargeColor: c(bodyTextLargeColor, other.bodyTextLargeColor),
+      headlineTextSmallColor: c(headlineTextSmallColor, other.headlineTextSmallColor),
+      headlineTextMediumColor: c(headlineTextMediumColor, other.headlineTextMediumColor),
+      headlineTextLargeColor: c(headlineTextLargeColor, other.headlineTextLargeColor),
+      labelTextSmallColor: c(labelTextSmallColor, other.labelTextSmallColor),
+      labelTextMediumColor: c(labelTextMediumColor, other.labelTextMediumColor),
+      labelTextLargeColor: c(labelTextLargeColor, other.labelTextLargeColor),
+      warningColor: c(warningColor, other.warningColor),
+      infoColor: c(infoColor, other.infoColor),
+      successColor: c(successColor, other.successColor),
+    );
+  }
 
   /// Returns a fixed-size dimension for buttons.
   Size get buttonMinSize => Size(double.infinity, buttonMinSizeHeight);

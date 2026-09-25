@@ -12,6 +12,7 @@
 /// - switch themes
 /// - work with default themes and extensions
 /// - access theme data components (app bar, buttons, colors, etc.)
+library;
 
 // Core public API
 export 'features/theme/presentation/app_theme_manager.dart';
@@ -19,6 +20,9 @@ export 'features/theme/presentation/widgets/app_theme_builder.dart';
 
 // Domain entities
 export 'features/theme/domain/entity/app_theme.dart';
+
+// Errors
+export 'core/utils/exception/app_theme_exception.dart';
 
 // Theme extensions and defaults
 export 'core/theme/default/themes.dart';

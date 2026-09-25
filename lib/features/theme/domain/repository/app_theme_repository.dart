@@ -1,6 +1,5 @@
-
-abstract interface class AppThemeRepository  {
-  void saveThem(String key);
+abstract interface class AppThemeRepository {
+  Future<void> saveTheme(String key);
 
   String? getTheme();
 }

@@ -6,17 +6,13 @@ import 'package:flutter/material.dart';
 ///
 /// This class holds both the identifier (key) and the associated [ThemeData]
 /// for a specific theme, enabling easy switching and management of multiple themes.
+@immutable
 class AppTheme {
-  /// A unique identifier for this theme (e.g., "light", "dark").
+  /// A unique identifier for this theme (e.g., "light", "dark"). It is what gets persisted.
   final String key;
 
   /// The visual configuration data for this theme.
   final ThemeData themeData;
 
-  /// Creates an instance of [AppTheme].
-  ///
-  /// Requires non-null values for both:
-  /// - [key]: Used to uniquely identify the theme (e.g., for persistence)
-  /// - [themeData]: Contains the actual styling information for the app
-  AppTheme({required this.key, required this.themeData});
+  const AppTheme({required this.key, required this.themeData});
 }

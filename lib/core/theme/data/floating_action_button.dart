@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../extensions/theme_extension.dart';
 
 abstract class FloatingActionButtonThemesData {
-  static get(AppThemeExtension themeExt) {
+  static FloatingActionButtonThemeData get(AppThemeExtension themeExt) {
     return FloatingActionButtonThemeData(
       elevation: 6,
       hoverColor: themeExt.primary,

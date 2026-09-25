@@ -39,8 +39,8 @@ Based on a [Medium article](https://medium.com/@hovhannisyankaro1992/theming-you
 **Key Methods**:
 1. `await AppThemeManager.init(themes: [])`
 2. Wrap `MaterialApp` with `AppThemeBuilder(theme: theme)`
-3. `AppThemeManager.changeTheme(context: context, themeKey: 'key')`
-4. `AppThemeManager.getCurrentTheme(context: context)` // Always returns the updated theme
+3. `AppThemeManager.changeTheme(themeKey: 'key')` // no BuildContext needed; the user stays on the current page
+4. `AppThemeManager.currentThemeKey` / `AppThemeManager.getCurrentTheme()` // Always returns the updated theme
 
 ---
 
@@ -48,7 +48,7 @@ Based on a [Medium article](https://medium.com/@hovhannisyankaro1992/theming-you
 Add to `pubspec.yaml`:
 ```yaml  
 dependencies:  
-  smart_lib_theme: ^1.1.0  # Replace with latest version
+  smart_lib_theme: ^1.2.0  # Replace with latest version
 ```  
 Then run:
 ```bash  
@@ -100,6 +100,9 @@ class MyApp extends StatelessWidget {
 
 > 🧠 **One-time setup**: Done once, works forever.
 
+> 🧭 **Navigation is preserved**: switching themes only swaps the `theme` passed to `MaterialApp`, so the user stays on the same page and page state is kept.
+> If you use `MaterialApp.router`, create your router (e.g. `GoRouter`) **outside** the builder — a router created inside it would be rebuilt on every theme change and reset navigation.
+
 ---
 
 ### 4. Switch Themes Dynamically
@@ -107,14 +110,14 @@ From any widget, change themes by **passing the theme key**:
 ```dart  
 GestureDetector(  
   onTap: () {  
-    AppThemeManager.changeTheme(context: context, themeKey: 'dark');  
+    AppThemeManager.changeTheme(themeKey: 'dark');  
   },  
   child: Text('Switch to Dark Mode'),  
 )  
 ```  
 
 > 🔄 The UI updates instantly thanks to BLoC and `ThemeExtension`.  
-> ⚠️ If the `themeKey` doesn’t exist, `ThemeExceptionConstants.notFoundKey` is thrown.
+> ⚠️ If the `themeKey` doesn’t exist, an `AppThemeException` is thrown (message: `ThemeExceptionConstants.notFoundKey`).
 
 ---
 
@@ -165,7 +168,7 @@ await AppThemeManager.init(themes: [
 ]);  
 ```  
 
-> 🎯 Now use `AppThemeManager.changeTheme(context, themeKey: 'custom')` to switch to your theme!
+> 🎯 Now use `AppThemeManager.changeTheme(themeKey: 'custom')` to switch to your theme!
 
 ---
 
@@ -183,14 +186,14 @@ class HomePage extends StatelessWidget {
           const SizedBox(height: 300),  
           Center(  
             child: GestureDetector(  
-              onTap: () => AppThemeManager.changeTheme(context: context, themeKey: 'light'),  
+              onTap: () => AppThemeManager.changeTheme(themeKey: 'light'),  
               child: Text('Light Theme'),  
             ),  
           ),  
           const SizedBox(height: 100),  
           Center(  
             child: GestureDetector(  
-              onTap: () => AppThemeManager.changeTheme(context: context, themeKey: 'dark'),  
+              onTap: () => AppThemeManager.changeTheme(themeKey: 'dark'),  
               child: Text('Dark Theme', style: context.textTheme().bodyMedium),  
             ),  
           ),  

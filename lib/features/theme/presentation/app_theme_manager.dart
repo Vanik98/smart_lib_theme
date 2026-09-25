@@ -1,94 +1,98 @@
 // smart_lib_theme/features/theme/presentation/app_theme_manager.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_lib_theme/di/dependency_injection.dart';
-import 'package:smart_lib_theme/features/theme/presentation/bloc/app_theme_bloc.dart';
-import 'package:smart_lib_theme/features/theme/presentation/bloc/app_theme_event.dart';
 
-import '../../../core/utils/exception/constants/exception_constants.dart';
+import '../../../core/utils/exception/app_theme_exception.dart';
+import '../../../di/dependency_injection.dart';
 import '../domain/entity/app_theme.dart';
-import '../domain/use_cases/get_is_first_launch_use_case.dart';
+import 'bloc/app_theme_bloc.dart';
+import 'bloc/app_theme_event.dart';
 
-/// Singleton manager class for handling application-wide theme state and persistence.
+/// Entry point for initializing, switching and reading the application theme.
 ///
-/// This class provides:
-/// - Initialization of supported themes
-/// - Theme switching functionality
-/// - Access to current theme data
-/// - Integration with Flutter Bloc for state management
+/// The theme state lives in a single app-wide bloc, so switching themes works from
+/// anywhere (including code with no [BuildContext]) and only swaps the [ThemeData]
+/// given to your `MaterialApp`: the navigation stack and page state are preserved.
 class AppThemeManager {
-  /// Gets the initial theme data loaded during initialization
-  static ThemeData? get initialThemeData => _initialThemeData;
-
-  /// Gets the list of available application themes
-  static List<AppTheme> get appThemes => _appThemes;
-
-  static ThemeData? _initialThemeData;
-  static late List<AppTheme> _appThemes;
-
-  /// Private constructor for singleton implementation
   factory AppThemeManager() => _instance;
   static final AppThemeManager _instance = AppThemeManager._internal();
 
   AppThemeManager._internal();
 
-  /// Gets the singleton instance of [AppThemeManager]
+  /// Gets the singleton instance of [AppThemeManager].
   static AppThemeManager get instance => _instance;
 
-  /// Initializes the theme manager with supported themes
+  static List<AppTheme> _appThemes = const [];
+
+  /// The themes passed to [init].
+  static List<AppTheme> get appThemes => _appThemes;
+
+  /// The theme data resolved during [init] (saved theme, else system brightness, else first).
+  static ThemeData? get initialThemeData =>
+      themeLocator.isRegistered<AppThemeBloc>() ? themeLocator<AppThemeBloc>().state.themeData : null;
+
+  /// Whether [init] has completed.
+  static bool get isInitialized => themeLocator.isRegistered<AppThemeBloc>();
+
+  /// Initializes the theme manager with the supported [themes].
   ///
-  /// 1. Ensures Flutter binding is initialized
-  /// 2. Configures dependency injection container
-  /// 3. Retrieves initial theme using [GetAppThemUseCase]
+  /// Must be awaited before `runApp`. The initial theme is the previously saved one,
+  /// otherwise the first theme matching the system brightness, otherwise the first theme.
   ///
-  /// Throws exceptions from dependency injection or theme loading
+  /// Throws [AppThemeException] if [themes] is empty or contains duplicate keys.
   static Future<void> init({required List<AppTheme> themes}) async {
-    _appThemes = themes;
+    if (themes.isEmpty) {
+      throw const AppThemeException(ThemeExceptionConstants.emptyThemes);
+    }
+    if (themes.map((t) => t.key).toSet().length != themes.length) {
+      throw const AppThemeException(ThemeExceptionConstants.duplicateKeys);
+    }
     WidgetsFlutterBinding.ensureInitialized();
-    await AppThemeDependencyInjection.configure();
-    _initialThemeData = themeLocator.get<GetAppThemUseCase>().execute(_appThemes);
+    _appThemes = List.unmodifiable(themes);
+    await AppThemeDependencyInjection.configure(themes: _appThemes);
   }
 
-  /// Changes the current application theme
+  /// Switches the whole app to the theme registered under [themeKey] and persists it.
   ///
-  /// Dispatches [AppThemeEvent.changeTheme] through Bloc to update theme state
+  /// The current page stays on screen; every widget reading the theme rebuilds with the new one.
   ///
-  /// Parameters:
-  /// - [context]: BuildContext for accessing Bloc provider
-  /// - [themeKey]: The new theme key to apply
-  ///
-  /// Throws [Exception] with message from [ThemeExceptionConstants] if Bloc operation fails
-  static void changeTheme({required BuildContext context, required String themeKey}) {
-    ThemeData? themeData;
-    for (var i = 0; i < _appThemes.length; i++) {
-      if (_appThemes[i].key == themeKey) {
-        themeData = _appThemes[i].themeData;
-        break;
-      }
+  /// Throws [AppThemeException] if [themeKey] is unknown or [init] has not completed.
+  static void changeTheme({
+    @Deprecated('No longer needed; the theme can be changed without a BuildContext.') BuildContext? context,
+    required String themeKey,
+  }) {
+    final bloc = _requireBloc();
+    final theme = _findTheme(themeKey);
+    if (theme == null) {
+      throw AppThemeException('${ThemeExceptionConstants.notFoundKey} Key: "$themeKey".');
     }
-    if (themeData == null) {
-      throw Exception(ThemeExceptionConstants.notFoundKey);
-    }
-    try {
-      context.read<AppThemeBloc>().add(AppThemeEvent.changeTheme(AppTheme(key: themeKey, themeData: themeData)));
-    } catch (e) {
-      throw Exception(ThemeExceptionConstants.appThemeMessage);
-    }
+    bloc.add(AppThemeEvent.changeTheme(theme));
   }
 
-  /// Gets the current theme data from Bloc state
+  /// Returns the [ThemeData] currently applied.
   ///
-  /// Parameters:
-  /// - [context]: BuildContext for accessing Bloc state
-  ///
-  /// Returns [ThemeData] of current theme or null if not initialized
-  ///
-  /// Throws [Exception] with message from [ThemeExceptionConstants] if Bloc access fails
-  static ThemeData? getCurrentTheme({required BuildContext context}) {
-    try {
-      return context.read<AppThemeBloc>().state.theme;
-    } catch (e) {
-      throw Exception(ThemeExceptionConstants.appThemeMessage);
+  /// Throws [AppThemeException] if [init] has not completed.
+  static ThemeData getCurrentTheme({
+    @Deprecated('No longer needed; the theme can be read without a BuildContext.') BuildContext? context,
+  }) =>
+      _requireBloc().state.themeData;
+
+  /// The [AppTheme] (key and data) currently applied.
+  static AppTheme get currentTheme => _requireBloc().state.theme;
+
+  /// The key of the theme currently applied.
+  static String get currentThemeKey => currentTheme.key;
+
+  static AppThemeBloc _requireBloc() {
+    if (!themeLocator.isRegistered<AppThemeBloc>()) {
+      throw const AppThemeException(ThemeExceptionConstants.initErrorMessage);
     }
+    return themeLocator<AppThemeBloc>();
+  }
+
+  static AppTheme? _findTheme(String key) {
+    for (final theme in _appThemes) {
+      if (theme.key == key) return theme;
+    }
+    return null;
   }
 }

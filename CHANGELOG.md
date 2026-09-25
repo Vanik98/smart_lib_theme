@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.0] - 2026-09-25
+
+### Fixed
+- `AppThemeBuilder` no longer closes the app-wide theme bloc when it is removed from the tree (theme switching stopped working afterwards).
+- Theme changes keep the current page and its state; custom `AppThemeExtension` colors now animate with the rest of the theme (`lerp` and `copyWith` were no-ops).
+- The system-brightness fallback promised in 1.1.1 is now implemented: with no saved theme, the first theme matching the device brightness is used.
+- Theme dependencies use a private service locator instead of the app's global `GetIt.instance`; `AppThemeManager.init` can be called more than once.
+- Replaced deprecated `withOpacity` calls and added missing return types to the theme data helpers.
+
+### Changed
+- `AppThemeManager.changeTheme` and `getCurrentTheme` no longer need a `BuildContext` (the `context` parameter is deprecated).
+- `AppThemeBuilder` passes a non-null `ThemeData` to its builder.
+- Added `AppThemeManager.currentTheme`, `currentThemeKey` and `isInitialized`.
+- Errors are thrown as `AppThemeException`; `init` rejects empty theme lists and duplicate keys.
+- The new theme is applied immediately and persisted in the background.
+
 ## [1.1.1] - 2026-01-14
 
 ### Changed

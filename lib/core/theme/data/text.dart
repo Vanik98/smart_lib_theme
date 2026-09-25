@@ -4,41 +4,41 @@ import '../extensions/theme_extension.dart';
 
 abstract class TextThemesData {
   /// Display Text
-  static displaySmall(AppThemeExtension themeExt) => TextStyle(color: themeExt.displayTextSmallColor);
+  static TextStyle displaySmall(AppThemeExtension themeExt) => TextStyle(color: themeExt.displayTextSmallColor);
 
-  static displayMedium(AppThemeExtension themeExt) => TextStyle(color: themeExt.displayTextMediumColor);
+  static TextStyle displayMedium(AppThemeExtension themeExt) => TextStyle(color: themeExt.displayTextMediumColor);
 
-  static displayLarge(AppThemeExtension themeExt) => TextStyle(color: themeExt.displayTextLargeColor);
+  static TextStyle displayLarge(AppThemeExtension themeExt) => TextStyle(color: themeExt.displayTextLargeColor);
 
   /// Title Text
-  static titleSmall(AppThemeExtension themeExt) => TextStyle(color: themeExt.titleTextSmallColor);
+  static TextStyle titleSmall(AppThemeExtension themeExt) => TextStyle(color: themeExt.titleTextSmallColor);
 
-  static titleMedium(AppThemeExtension themeExt) => TextStyle(color: themeExt.titleTextMediumColor);
+  static TextStyle titleMedium(AppThemeExtension themeExt) => TextStyle(color: themeExt.titleTextMediumColor);
 
-  static titleLarge(AppThemeExtension themeExt) => TextStyle(color: themeExt.titleTextLargeColor);
+  static TextStyle titleLarge(AppThemeExtension themeExt) => TextStyle(color: themeExt.titleTextLargeColor);
 
   /// Body Text
-  static bodySmall(AppThemeExtension themeExt) => TextStyle(color: themeExt.bodyTextSmallColor);
+  static TextStyle bodySmall(AppThemeExtension themeExt) => TextStyle(color: themeExt.bodyTextSmallColor);
 
-  static bodyMedium(AppThemeExtension themeExt) => TextStyle(color: themeExt.bodyTextMediumColor);
+  static TextStyle bodyMedium(AppThemeExtension themeExt) => TextStyle(color: themeExt.bodyTextMediumColor);
 
-  static bodyLarge(AppThemeExtension themeExt) => TextStyle(color: themeExt.bodyTextLargeColor);
+  static TextStyle bodyLarge(AppThemeExtension themeExt) => TextStyle(color: themeExt.bodyTextLargeColor);
 
   /// Headline Text
-  static headlineSmall(AppThemeExtension themeExt) => TextStyle(color: themeExt.headlineTextSmallColor);
+  static TextStyle headlineSmall(AppThemeExtension themeExt) => TextStyle(color: themeExt.headlineTextSmallColor);
 
-  static headlineMedium(AppThemeExtension themeExt) => TextStyle(color: themeExt.headlineTextMediumColor);
+  static TextStyle headlineMedium(AppThemeExtension themeExt) => TextStyle(color: themeExt.headlineTextMediumColor);
 
-  static headlineLarge(AppThemeExtension themeExt) => TextStyle(color: themeExt.headlineTextLargeColor);
+  static TextStyle headlineLarge(AppThemeExtension themeExt) => TextStyle(color: themeExt.headlineTextLargeColor);
 
   /// Label Text
-  static labelSmall(AppThemeExtension themeExt) => TextStyle(color: themeExt.labelTextSmallColor);
+  static TextStyle labelSmall(AppThemeExtension themeExt) => TextStyle(color: themeExt.labelTextSmallColor);
 
-  static labelMedium(AppThemeExtension themeExt) => TextStyle(color: themeExt.labelTextMediumColor);
+  static TextStyle labelMedium(AppThemeExtension themeExt) => TextStyle(color: themeExt.labelTextMediumColor);
 
-  static labelLarge(AppThemeExtension themeExt) => TextStyle(color: themeExt.labelTextLargeColor);
+  static TextStyle labelLarge(AppThemeExtension themeExt) => TextStyle(color: themeExt.labelTextLargeColor);
 
-  static get(AppThemeExtension themeExt) {
+  static TextTheme get(AppThemeExtension themeExt) {
     return TextTheme(
       /// Display styles (display1 to display4 in Flutter versions prior to 2.0, and headline1 to headline4 in later versions) are the largest text styles.
       /// They are intended for short, one or two-word statements at most, typically used for large numbers or as a big, impactful header.

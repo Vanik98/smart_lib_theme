@@ -3,8 +3,16 @@ import 'package:smart_lib_theme/core/theme/extensions/theme_extension.dart';
 
 import '../default/default_theme_extensions.dart';
 
+final AppThemeExtension _fallbackExtension = DefaultLightThemeExtension();
+
+/// Shortcuts for reading the active theme from a [BuildContext].
+///
+/// Every helper goes through [Theme.of], so widgets using them rebuild
+/// automatically when the theme changes.
 extension ThemeExt on BuildContext {
-  AppThemeExtension appColors() => Theme.of(this).extension<AppThemeExtension>() ?? DefaultLightThemeExtension();
+  /// The active [AppThemeExtension], or the default light tokens when the
+  /// current [ThemeData] has none registered.
+  AppThemeExtension appColors() => Theme.of(this).extension<AppThemeExtension>() ?? _fallbackExtension;
 
   ColorScheme colorScheme() => Theme.of(this).colorScheme;
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../extensions/theme_extension.dart';
 
 abstract class ButtonThemesData {
-  static elevated(AppThemeExtension themeExt) {
+  static ElevatedButtonThemeData elevated(AppThemeExtension themeExt) {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         minimumSize: themeExt.buttonMinSize,
@@ -15,7 +15,7 @@ abstract class ButtonThemesData {
     );
   }
 
-  static outlined(AppThemeExtension themeExt) {
+  static OutlinedButtonThemeData outlined(AppThemeExtension themeExt) {
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         minimumSize: themeExt.buttonMinSize,

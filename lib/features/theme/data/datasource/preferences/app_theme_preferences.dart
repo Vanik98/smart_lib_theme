@@ -1,5 +1,5 @@
 abstract interface class AppThemePreferences {
-  void saveTheme(String key);
+  Future<void> saveTheme(String key);
 
   String? getTheme();
 }
